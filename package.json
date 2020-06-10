@@ -1,6 +1,6 @@
 {
     "name": "fvi-dynamoose-utils",
-    "version": "0.0.1",
+    "version": "0.0.0",
     "description": "FVI - Dynamoose Utilities",
     "publishConfig": {
         "registry": "http://ec2-34-230-6-254.compute-1.amazonaws.com:4873"
