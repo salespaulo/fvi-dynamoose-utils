@@ -29,7 +29,7 @@
         "schema"
     ],
     "author": "FVI",
-    "license": "UNLICENSED",
+    "license": "MIT",
     "homepage": "https://github.com/salespaulo/fvi-dynamoose-utils.git#README",
     "devDependencies": {
         "chai": "^4.2.0",
