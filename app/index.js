@@ -1,58 +1,5 @@
 'use strict'
 
-const toDbLastKey = objLastKey => {
-    if (!objLastKey) {
-        const e = new Error(`[Dynamoose Utils]: To DB Last Key parameter is Empty or Null!`)
-        e.name = 'ToDbLastKeyDynamooseError'
-        throw e
-    }
-
-    const keys = Object.keys(objLastKey)
-    const obj = {}
-
-    keys.filter(k => !!objLastKey[k]).forEach(k => {
-        obj[k] = { S: objLastKey[k].toString() }
-    })
-
-    return obj
-}
-
-const toLastKey = dbLastKey => {
-    if (!dbLastKey) {
-        const e = new Error(`[Dynamoose Utils]: To JS Last Key parameter is Empty or Null!`)
-        e.name = 'ToLastKeyDynamooseError'
-        throw e
-    }
-
-    const keys = Object.keys(dbLastKey)
-    const obj = {}
-
-    keys.forEach(k => {
-        obj[k] = dbLastKey[k].S
-        return obj
-    })
-
-    return obj
-}
-
-const all = async (model, startKey, limit) => {
-    if (startKey && limit) {
-        const lastKey = toDbLastKey({ id: startKey })
-        return await model.scan.all(lastKey, limit)
-    }
-
-    if (startKey) {
-        const lastKey = toDbLastKey({ id: startKey })
-        return await model.scan.all(lastKey)
-    }
-
-    if (limit) {
-        return await model.scan.all(false, limit)
-    }
-
-    return await model.scan.all()
-}
-
 const globalIndexString = (name = null, rangeKey = null, project = true, throughput = 5) => {
     return {
         type: String,
@@ -115,7 +62,8 @@ const optionalEnumString = (values = null, value = null) => {
 
 const requiredArrayString = (values = null) => {
     return {
-        type: [String],
+        type: Set,
+        schema: [String],
         default: values,
         required: true,
     }
@@ -123,7 +71,8 @@ const requiredArrayString = (values = null) => {
 
 const optionalArrayString = (values = null) => {
     return {
-        type: [String],
+        type: Set,
+        schema: [String],
         default: values,
         required: false,
     }
@@ -178,9 +127,6 @@ const optionalInt = (value = null) => {
 }
 
 module.exports = {
-    toDbLastKey,
-    toLastKey,
-    all,
     optionalObject,
     requiredObject,
     requiredInt,
