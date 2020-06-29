@@ -4,8 +4,6 @@ const chai = require('chai')
 const util = require('util')
 
 const {
-    toDbLastKey,
-    toLastKey,
     optionalObject,
     requiredObject,
     requiredInt,
@@ -44,55 +42,6 @@ const testIt = (defaultValue, type, required, result) => {
 }
 
 describe('Utilities - Default Tests', () => {
-    it('Testing Repository Utils toDbLastKey OK:', done => {
-        try {
-            const lastKey = toDbLastKey({ id: 'test' })
-
-            chai.assert(!!lastKey, 'LastKey Is Null!')
-            chai.assert(!!lastKey.id, 'LastKey.id Is Null!')
-            chai.assert(!!lastKey.id.S, 'LastKey.id.S Is Null!')
-            chai.assert(lastKey.id.S === 'test', 'LastKey.id.S Is Not test Value!')
-            done()
-        } catch (e) {
-            done(e)
-        }
-    })
-
-    it('toDbLastKey - is OK?', done => {
-        const objLastKey = { id: '1234' }
-        const expected = {
-            id: { S: '1234' },
-        }
-
-        const result = toDbLastKey(objLastKey)
-        chai.should().exist(result.id, 'Not found prop result.id!')
-        chai.should().exist(result.id.S, 'Not found prop result.id.S!')
-        chai.should().equal(
-            expected.id.S,
-            result.id.S,
-            `Not match prop expected.id.S = ${expected.id.S} and result.id.S=${result.id.S}!`
-        )
-        done()
-    })
-
-    it('toLastKey - is OK?', done => {
-        const dbLastKey = {
-            id: { S: '1234' },
-        }
-        const expected = { id: '1234' }
-
-        const result = toLastKey(dbLastKey)
-
-        chai.should().exist(result.id, 'Not found prop expected.id!')
-
-        chai.should().equal(
-            expected.id,
-            result.id,
-            `Not match prop expected.id = ${expected.id} and result.id.S=${result.id}!`
-        )
-        done()
-    })
-
     it('Required object into schema - is OK?', done => {
         const defaultValue = { test: 'test' }
 
@@ -169,7 +118,7 @@ describe('Utilities - Default Tests', () => {
 
         const result = requiredArrayString(defaultValue)
 
-        testIt(defaultValue, [String], true, result)
+        testIt(defaultValue, Set, true, result)
 
         done()
     })
@@ -179,7 +128,7 @@ describe('Utilities - Default Tests', () => {
 
         const result = optionalArrayString(defaultValue)
 
-        testIt(defaultValue, [String], false, result)
+        testIt(defaultValue, Set, false, result)
 
         done()
     })
