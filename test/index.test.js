@@ -17,7 +17,7 @@ const {
     hashKeyString,
     rangeKeyString,
     globalIndexString,
-} = require('../app')
+} = require('../src')
 
 const testIt = (defaultValue, type, required, result) => {
     chai.should().exist(result.type, 'Not found prop expected.type!')
